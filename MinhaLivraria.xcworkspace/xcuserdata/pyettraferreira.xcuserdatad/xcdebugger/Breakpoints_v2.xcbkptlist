@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "62FB0ECA-91E4-4210-A31E-CA8271FD95F2"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBC7AED9-2CA2-4F14-90B0-3EEE62AE1962"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MinhaLivraria/BookViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "didTapReadButton()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BBC7AED9-2CA2-4F14-90B0-3EEE62AE1962 - aa4d1012d718f228"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MinhaLivraria.BookViewController.didTapReadButton() -&gt; ()"
+                  moduleName = "MinhaLivraria"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pyettraferreira/Documents/MinhaLivraria/MinhaLivraria/BookViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "159"
+                  endingLineNumber = "159"
+                  offsetFromSymbolStart = "186">
+               </Location>
+               <Location
+                  uuid = "BBC7AED9-2CA2-4F14-90B0-3EEE62AE1962 - aa4d1012d718f228"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MinhaLivraria.BookViewController.didTapReadButton() -&gt; ()"
+                  moduleName = "MinhaLivraria"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pyettraferreira/Documents/MinhaLivraria/MinhaLivraria/BookViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "159"
+                  endingLineNumber = "159"
+                  offsetFromSymbolStart = "292">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

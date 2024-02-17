@@ -13,11 +13,18 @@ final class TabBarController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let presenter = Presenter()
+        
         let interactor = Interactor(presenter: presenter)
+        let wishListInteractor = WishListInteractor()
+        let readInteractor = ReadInteractor()
 
-        // Create your view controllers
         let firstVC = ViewController(interactor: interactor)
-//        let secondVC = BookViewController()
+        let secondVC = WishListViewController(interactor: wishListInteractor)
+        let thirdVC = ReadViewController(interactor: readInteractor)
+        
+        let navigationController = UINavigationController(rootViewController: firstVC)
+        let secondNavigationController = UINavigationController(rootViewController: secondVC)
+        let thirdNavigationController = UINavigationController(rootViewController: thirdVC)
         
         presenter.viewController = firstVC
 
@@ -25,7 +32,11 @@ final class TabBarController: UIViewController {
         let tabBarController = UITabBarController()
         
         // Set view controllers for the UITabBarController
-        tabBarController.viewControllers = [firstVC]
+        tabBarController.viewControllers = [
+            navigationController,
+            secondNavigationController,
+            thirdNavigationController
+        ]
         
         tabBarController.tabBar.backgroundColor = .white
         

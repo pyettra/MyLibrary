@@ -1,23 +1,24 @@
 //
-//  ViewController.swift
+//  ReadViewController.swift
 //  MinhaLivraria
 //
-//  Created by Pyettra Ferreira on 12/02/24.
+//  Created by Pyettra Ferreira on 17/02/24.
 //
 
+import Foundation
 import UIKit
 
-protocol ViewControllerDisplaying {
+protocol ReadViewControllerDisplaying {
     func displayList(bookList: [BookModel])
 }
 
-class ViewController: UIViewController {
-    private var interactor: Interacting
+class ReadViewController: UIViewController {
+    private var interactor: ReadInteracting
     private var bookList: [BookModel] = []
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Minha Biblioteca"
+        label.text = "Lidos"
         label.font = UIFont(name: "Courier", size: 30)
         label.textColor = .black
         return label
@@ -36,18 +37,25 @@ class ViewController: UIViewController {
         collectionView.register(BookCollectionCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "First"
-        let image = UIImage(named: "book_black")
+        let image = UIImage(named: "bookmark_black")
         tabBarItem = UITabBarItem(title: "", image: image, selectedImage: image)
-        interactor.openDatabase()
+        
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.bookList = interactor.getReadList()
         setUpView()
     }
     
-    init(interactor: Interacting) {
+    init(interactor: ReadInteracting) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -57,13 +65,13 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: ViewControllerDisplaying {
+extension ReadViewController: ReadViewControllerDisplaying {
     func displayList(bookList: [BookModel]) {
         self.bookList = bookList
     }
 }
 
-private extension ViewController {
+private extension ReadViewController {
     func setUpView() {
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +95,7 @@ private extension ViewController {
     }
 }
 
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ReadViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         bookList.count
     }
@@ -115,8 +123,6 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let bookVC = BookViewController(book: bookList[indexPath.row])
-        bookVC.modalPresentationStyle = .fullScreen
-        present(bookVC, animated: true)
+        navigationController?.pushViewController(bookVC, animated: true)
     }
 }
-

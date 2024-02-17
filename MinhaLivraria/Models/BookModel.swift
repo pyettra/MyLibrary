@@ -16,7 +16,7 @@ struct BookModel: Decodable {
     let bookId: Int
     let isRead: Int
     let isWishlist: Int
-    let authorId: Int
+    let author: AuthorModel?
     let description: String
     let image: String
 }
