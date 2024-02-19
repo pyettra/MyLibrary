@@ -10,7 +10,7 @@ import SQLite3
 import SQLite
 
 protocol Interacting {
-    func openDatabase() -> [BookModel]
+    func openDatabase()
 }
 
 final class Interactor: Interacting {
@@ -20,7 +20,7 @@ final class Interactor: Interacting {
         self.presenter = presenter
     }
     
-    func openDatabase() -> [BookModel] {
+    func openDatabase() {
         var models = [BookModel]()
         
         var db: OpaquePointer? = nil
@@ -28,7 +28,7 @@ final class Interactor: Interacting {
 
         guard let path = fileURL?.path else {
             print("Database file not found in bundle.")
-            return []
+            return
         }
 
         if sqlite3_open(path, &db) == SQLITE_OK {
@@ -64,13 +64,10 @@ final class Interactor: Interacting {
             sqlite3_finalize(statement)
         } else {
             print("Unable to open database. Verify that the file exists at the specified path.")
-            return []
+            return
         }
         sqlite3_close(db)
-        
-        print(models)
         presenter.presentList(books: models)
-        return models
     }
 }
 

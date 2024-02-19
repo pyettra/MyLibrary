@@ -11,7 +11,7 @@ struct BookList: Decodable {
     let books: [BookModel]
 }
 
-struct BookModel: Decodable {
+struct BookModel: Decodable, Equatable {
     let bookName: String
     let bookId: Int
     let isRead: Int

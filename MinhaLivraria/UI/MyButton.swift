@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 
 class MyButton: UIButton {
+    private var identifier: String
+    
+    var buttonTappedHandler: ((Bool) -> Void)?
+    
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -23,33 +27,23 @@ class MyButton: UIButton {
     }()
     
     override init(frame: CGRect) {
+        self.identifier = UUID().uuidString
         super.init(frame: frame)
-        layer.cornerRadius = 20
-        layer.masksToBounds = true
-        layer.borderWidth = 1
-        
+        setUpButton()
         setUpView()
     }
     
     required init?(coder aDecoder: NSCoder) {
+        self.identifier = UUID().uuidString
         super.init(coder: aDecoder)
+        setUpButton()
         setUpView()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
     }
     
     override var isSelected: Bool {
         didSet {
-            let color = isSelected ? UIColor.black : UIColor.white
-            let backgroundColor = isSelected ? UIColor.white : UIColor.black
-            
-            iconImageView.tintColor = color
-            textLabel.textColor = color
-            layer.borderColor = color.cgColor
-            
-            self.backgroundColor = backgroundColor
+            updateBackgroundColor()
+            saveState()
         }
     }
     
@@ -83,5 +77,32 @@ private extension MyButton {
             textLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ]
         NSLayoutConstraint.activate(textLabelConstraints)
+    }
+    
+    func setUpButton() {
+        layer.cornerRadius = 20
+        layer.masksToBounds = true
+        layer.borderWidth = 1
+        isSelected = UserDefaults.standard.bool(forKey: identifier)
+        updateBackgroundColor()
+        addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+    
+    func saveState() {
+        UserDefaults.standard.set(isSelected, forKey: identifier)
+    }
+    
+    func updateBackgroundColor() {
+        backgroundColor = isSelected ? .black : .white
+        
+        iconImageView.tintColor = isSelected ? .white : .black
+        textLabel.textColor = isSelected ? .white : .black
+        layer.borderColor = isSelected ? UIColor.white.cgColor : UIColor.black.cgColor
+    }
+    
+    @objc func buttonTapped() {
+        isSelected = !isSelected
+        
+        buttonTappedHandler?(isSelected)
     }
 }

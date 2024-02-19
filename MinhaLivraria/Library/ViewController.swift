@@ -36,6 +36,10 @@ class ViewController: UIViewController {
         collectionView.register(BookCollectionCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

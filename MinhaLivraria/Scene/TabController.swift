@@ -15,12 +15,10 @@ final class TabBarController: UIViewController {
         let presenter = Presenter()
         
         let interactor = Interactor(presenter: presenter)
-        let wishListInteractor = WishListInteractor()
-        let readInteractor = ReadInteractor()
 
         let firstVC = ViewController(interactor: interactor)
-        let secondVC = WishListViewController(interactor: wishListInteractor)
-        let thirdVC = ReadViewController(interactor: readInteractor)
+        let secondVC = WishListViewController()
+        let thirdVC = ReadViewController()
         
         let navigationController = UINavigationController(rootViewController: firstVC)
         let secondNavigationController = UINavigationController(rootViewController: secondVC)
@@ -28,10 +26,8 @@ final class TabBarController: UIViewController {
         
         presenter.viewController = firstVC
 
-        // Create an instance of UITabBarController
         let tabBarController = UITabBarController()
         
-        // Set view controllers for the UITabBarController
         tabBarController.viewControllers = [
             navigationController,
             secondNavigationController,

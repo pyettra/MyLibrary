@@ -8,12 +8,7 @@
 import Foundation
 import UIKit
 
-protocol WishListViewControllerDisplaying {
-    func displayList(bookList: [BookModel])
-}
-
 class WishListViewController: UIViewController {
-    private var interactor: WishListInteracting
     private var bookList: [BookModel] = []
     
     private lazy var titleLabel: UILabel = {
@@ -40,6 +35,8 @@ class WishListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
+        self.bookList = BookLists.shared.wishList
+        collectionView.reloadData()
     }
 
     override func viewDidLoad() {
@@ -51,23 +48,7 @@ class WishListViewController: UIViewController {
         
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.bookList = interactor.getWishList()
         setUpView()
-    }
-    
-    init(interactor: WishListInteracting) {
-        self.interactor = interactor
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension WishListViewController: WishListViewControllerDisplaying {
-    func displayList(bookList: [BookModel]) {
-        self.bookList = bookList
     }
 }
 

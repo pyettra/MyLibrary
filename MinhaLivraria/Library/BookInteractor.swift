@@ -9,66 +9,43 @@ import Foundation
 import SQLite3
 
 protocol BookInteracting {
-    func updateWishlist(book: BookModel)
-    func updateReadList(book: BookModel)
+    func updateWishList(book: BookModel, value: Int)
+    func updateReadList(book: BookModel, value: Int)
 }
 
 final class BookInteractor: BookInteracting {
-    func updateWishlist(book: BookModel) {
+    func updateWishList(book: BookModel, value: Int) {
         var db: OpaquePointer? = nil
         let fileURL = Bundle.main.url(forResource: "LibraryDataBase", withExtension: "")
+        var statement : OpaquePointer? = nil
+        let query = "UPDATE books SET is_wishlist = ? WHERE book_id = ?;"
         
-        print("valor antes: \(book.bookId) é \(book.isRead)")
-        // Assuming you have a SQLite database connection named `db`
-        guard let path = fileURL?.path else {
+        guard let path = fileURL?.path else { 
             print("Database file not found in bundle.")
             return
         }
         
         if sqlite3_open(path, &db) == SQLITE_OK {
-            let query = "UPDATE books SET is_wishlist = \(2) WHERE book_id = \(book.bookId)"
-            var statement: OpaquePointer?
-            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
-            
-            
-            // Prepare the query
-            guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing query:", String(cString: sqlite3_errmsg(db)))
-                sqlite3_close(db)
-                return
-            }
-
-            // Bind the new values for the columns
-            guard sqlite3_bind_int(statement, 0, Int32(book.bookId)) == SQLITE_OK &&
-                    sqlite3_bind_int(statement, 3, Int32(book.isWishlist)) == SQLITE_OK else {
-                print("Error binding parameters:", String(cString: sqlite3_errmsg(db)))
+            if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
+                sqlite3_bind_int(statement, 1, Int32(value))
+                sqlite3_bind_int(statement, 2, Int32(book.bookId))
+                
+                if sqlite3_step(statement) == SQLITE_DONE {
+                    print("Data updated success")
+                } else {
+                    print("Data is not updated in table")
+                }
+                
                 sqlite3_finalize(statement)
-                sqlite3_close(db)
-                return
             }
-
-            // Execute the statement
-            guard sqlite3_step(statement) == SQLITE_DONE else {
-                print("Error updating row:", String(cString: sqlite3_errmsg(db)))
-                sqlite3_finalize(statement)
-                sqlite3_close(db)
-                return
-            }
-            print("valor depois: \(book.bookId) é \(book.isRead)")
-            sqlite3_finalize(statement)
-            sqlite3_close(db)
         }
-        
-        // Finalize the statement and close the database connection
-
-        print("Row updated successfully")
     }
     
-    func updateReadList(book: BookModel) {
+    func updateReadList(book: BookModel, value: Int) {
         var db: OpaquePointer? = nil
         let fileURL = Bundle.main.url(forResource: "LibraryDataBase", withExtension: "")
-        
-        print("valor antes: \(book.bookId) é \(book.isRead)")
+        var statement : OpaquePointer? = nil
+        let query = "UPDATE books SET is_read = ? WHERE book_id = ?;"
 
         guard let path = fileURL?.path else {
             print("Database file not found in bundle.")
@@ -76,21 +53,18 @@ final class BookInteractor: BookInteracting {
         }
         
         if sqlite3_open(path, &db) == SQLITE_OK {
-            let updateStatementString = "UPDATE books SET is_read = \(3) WHERE book_id = \(book.bookId)"
-            var updateStatement: OpaquePointer? = nil
-            
-            if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
-                if sqlite3_step(updateStatement) == SQLITE_DONE {
-                    print("Successfully updated row.")
-                    print("valor depois: \(book.bookId) é \(book.isRead)")
+            if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
+                sqlite3_bind_int(statement, 1, Int32(value))
+                sqlite3_bind_int(statement, 2, Int32(book.bookId))
+                
+                if sqlite3_step(statement) == SQLITE_DONE {
+                    print("Data updated success")
                 } else {
-                    print("Could not update row.")
+                    print("Data is not updated in table")
                 }
-            } else {
-                print("UPDATE statement could not be prepared")
+                
+                sqlite3_finalize(statement)
             }
-            sqlite3_finalize(updateStatement)
         }
-        sqlite3_close(db)
     }
 }

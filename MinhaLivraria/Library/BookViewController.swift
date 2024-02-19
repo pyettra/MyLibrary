@@ -26,7 +26,11 @@ final class BookViewController: UIViewController {
     
     private lazy var isReadButton: MyButton = {
         let button = MyButton()
-        button.addTarget(self, action: #selector(didTapReadButton), for: .touchUpInside)
+        button.buttonTappedHandler = { isSelected in
+            print("estado do botao: \(isSelected)")
+            self.didTapReadButton()
+        }
+//        button.addTarget(self, action: #selector(didTapReadButton), for: .touchUpInside)
         button.configure(image: UIImage(named: "favorite_black"), text: "lido")
         return button
     }()
@@ -125,7 +129,7 @@ private extension BookViewController {
             imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 50),
+            imageView.heightAnchor.constraint(equalToConstant: 100),
             imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
         
@@ -134,7 +138,7 @@ private extension BookViewController {
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            buttonStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 300),
+            buttonStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 280),
             buttonStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 14)
         ])
         
@@ -152,10 +156,22 @@ private extension BookViewController {
     }
     
     @objc func didTapWishlistButton() {
-        interactor.updateWishlist(book: book)
+        if BookLists.shared.isInWishList(book: book) {
+            BookLists.shared.removeFromWishList(book: book)
+            interactor.updateWishList(book: book, value: 0)
+        } else {
+            BookLists.shared.addToWishList(book: book)
+            interactor.updateWishList(book: book, value: 1)
+        }
     }
     
-    @objc func didTapReadButton() {
-        interactor.updateReadList(book: book)
+    func didTapReadButton() {
+        if BookLists.shared.isInAlreadyRead(book: book) {
+            BookLists.shared.removeFromAlreadyRead(book: book)
+            interactor.updateReadList(book: book, value: 0)
+        } else {
+            BookLists.shared.addToAlreadyRead(book: book)
+            interactor.updateReadList(book: book, value: 1)
+        }
     }
 }

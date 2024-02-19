@@ -8,12 +8,7 @@
 import Foundation
 import UIKit
 
-protocol ReadViewControllerDisplaying {
-    func displayList(bookList: [BookModel])
-}
-
 class ReadViewController: UIViewController {
-    private var interactor: ReadInteracting
     private var bookList: [BookModel] = []
     
     private lazy var titleLabel: UILabel = {
@@ -40,6 +35,8 @@ class ReadViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
+        self.bookList = BookLists.shared.alreadyRead
+        collectionView.reloadData()
     }
 
     override func viewDidLoad() {
@@ -51,23 +48,7 @@ class ReadViewController: UIViewController {
         
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.bookList = interactor.getReadList()
         setUpView()
-    }
-    
-    init(interactor: ReadInteracting) {
-        self.interactor = interactor
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension ReadViewController: ReadViewControllerDisplaying {
-    func displayList(bookList: [BookModel]) {
-        self.bookList = bookList
     }
 }
 
@@ -126,3 +107,5 @@ extension ReadViewController: UICollectionViewDataSource, UICollectionViewDelega
         navigationController?.pushViewController(bookVC, animated: true)
     }
 }
+
+

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AuthorModel: Decodable {
+struct AuthorModel: Decodable, Equatable {
     let authorId: Int
     let authorName: String
 }
