@@ -41,6 +41,7 @@ O aplicativo deve ter um desempenho responsivo, mesmo quando lidando com grandes
 4.3 Segurança
 Os dados dos usuários devem ser armazenados de forma segura no banco de dados SQLite3.
 
+Você pode encontrar a documentação completa desse projeto [aqui](https://app.gitbook.com/o/87UWrEBVs2JSXHeqYLJe/s/IJiNRWjeCMjeMEcB7Ajh/)
 
 **5. Bibliografia**
 
