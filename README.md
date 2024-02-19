@@ -12,27 +12,6 @@ O aplicativo foi desenvolvido em Swift, uma linguagem de programação amplament
 2.2 Banco de Dados: 
 Para armazenar os dados dos livros e autores, foi utilizado o SQLite3, um banco de dados relacional de código aberto. O esquema do banco de dados inclui duas tabelas: "authors" para armazenar informações sobre os autores e "books" para armazenar informações sobre os livros.
 
-Script do Banco de Dados:
-
-sql
-Copy code
-CREATE TABLE authors (
-    author_id INTEGER PRIMARY KEY,
-    author_name TEXT NOT NULL
-);
-
-CREATE TABLE books (
-    book_id INTEGER PRIMARY KEY,
-    book_name TEXT NOT NULL,
-    is_read INTEGER,
-    is_wishlist INTEGER,
-    author_id INTEGER,
-    description TEXT,
-    image TEXT,
-    FOREIGN KEY (author_id) REFERENCES authors(author_id)
-);
-
-
 **3. Requisitos Funcionais**
 
 3.1 Visualização de Livros
