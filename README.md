@@ -6,10 +6,10 @@ O projeto consiste no desenvolvimento de um aplicativo para dispositivos iOS, de
 
 **2. Implementação**
 
-2.1 Linguagem de Programação
+2.1 Linguagem de Programação: 
 O aplicativo foi desenvolvido em Swift, uma linguagem de programação amplamente utilizada para o desenvolvimento de aplicativos iOS.
 
-2.2 Banco de Dados
+2.2 Banco de Dados: 
 Para armazenar os dados dos livros e autores, foi utilizado o SQLite3, um banco de dados relacional de código aberto. O esquema do banco de dados inclui duas tabelas: "authors" para armazenar informações sobre os autores e "books" para armazenar informações sobre os livros.
 
 Script do Banco de Dados:
